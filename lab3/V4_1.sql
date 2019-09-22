@@ -34,13 +34,14 @@ SET countryregionname = V.countryregionname
 FROM @StateProvinceVar AS V
 WHERE stateprovince.stateprovinceid = V.stateprovinceid;
 
-/*d) удалите штаты из dbo.StateProvince, которые отсутствуют в таблице Person.Address;*/DELETE
-                                                                                        FROM dbo.stateprovince
-                                                                                        WHERE stateprovinceid NOT IN
-                                                                                              (
-                                                                                                  SELECT stateprovinceid
-                                                                                                  FROM person.address
-                                                                                              );
+/*d) удалите штаты из dbo.StateProvince, которые отсутствуют в таблице Person.Address;*/
+DELETE
+FROM dbo.stateprovince
+WHERE stateprovinceid NOT IN
+      (
+          SELECT stateprovinceid
+          FROM person.address
+      );
 
 /*e) удалите поле CountryRegionName из таблицы, удалите все созданные ограничения и значения по умолчанию.*/
 ALTER TABLE dbo.stateprovince

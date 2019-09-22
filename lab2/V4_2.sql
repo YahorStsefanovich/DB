@@ -23,7 +23,7 @@ ALTER TABLE dbo.stateprovince
  запрещающее заполнение этого поля цифрами;*/
 ALTER TABLE dbo.stateprovince
     ADD CONSTRAINT countryregioncodepermitdigit CHECK ( countryregioncode NOT LIKE
-                                                        '%^.*[0-9].*$%' );
+                                                        '%^[0-9]+$%' );
 
 /*d) используя инструкцию ALTER TABLE, создайте для таблицы dbo.StateProvince ограничение 
   DEFAULT для поля ModifiedDate, задайте значение по умолчанию текущую дату и время;*/

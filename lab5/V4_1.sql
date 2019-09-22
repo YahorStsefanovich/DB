@@ -1,6 +1,6 @@
-/*Создайте scalar-valued функцию, которая будет принимать в качестве входного
- параметра id заказа (Sales.SalesOrderHeader.SalesOrderID) и возвращать максимальную
-  цену продукта из заказа (Sales.SalesOrderDetail.UnitPrice).*/
+/*РЎРѕР·РґР°Р№С‚Рµ scalar-valued С„СѓРЅРєС†РёСЋ, РєРѕС‚РѕСЂР°СЏ Р±СѓРґРµС‚ РїСЂРёРЅРёРјР°С‚СЊ РІ РєР°С‡РµСЃС‚РІРµ РІС…РѕРґРЅРѕРіРѕ
+ РїР°СЂР°РјРµС‚СЂР° id Р·Р°РєР°Р·Р° (Sales.SalesOrderHeader.SalesOrderID) Рё РІРѕР·РІСЂР°С‰Р°С‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ
+  С†РµРЅСѓ РїСЂРѕРґСѓРєС‚Р° РёР· Р·Р°РєР°Р·Р° (Sales.SalesOrderDetail.UnitPrice).*/
 CREATE FUNCTION dbo.GetMaxCost (@SalesOrderID [int])
   RETURNS money
   WITH
@@ -17,14 +17,14 @@ RETURN
 END;
 GO
 
-/*Создайте inline table-valued функцию, которая будет принимать
-  в качестве входных параметров id продукта (Production.Product.ProductID) 
-  и количество строк, которые необходимо вывести.
+/*РЎРѕР·РґР°Р№С‚Рµ inline table-valued С„СѓРЅРєС†РёСЋ, РєРѕС‚РѕСЂР°СЏ Р±СѓРґРµС‚ РїСЂРёРЅРёРјР°С‚СЊ
+  РІ РєР°С‡РµСЃС‚РІРµ РІС…РѕРґРЅС‹С… РїР°СЂР°РјРµС‚СЂРѕРІ id РїСЂРѕРґСѓРєС‚Р° (Production.Product.ProductID) 
+  Рё РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕРє, РєРѕС‚РѕСЂС‹Рµ РЅРµРѕР±С…РѕРґРёРјРѕ РІС‹РІРµСЃС‚Рё.
 
-  Функция должна возвращать определенное количество инвентаризационных записей
-  о продукте с наибольшим его количеством (по Quantity) из 
-  Production.ProductInventory. Функция должна возвращать 
-  только продукты, хранящиеся в отделе А (Production.ProductInventory.Shelf).*/
+  Р¤СѓРЅРєС†РёСЏ РґРѕР»Р¶РЅР° РІРѕР·РІСЂР°С‰Р°С‚СЊ РѕРїСЂРµРґРµР»РµРЅРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РёРЅРІРµРЅС‚Р°СЂРёР·Р°С†РёРѕРЅРЅС‹С… Р·Р°РїРёСЃРµР№
+  Рѕ РїСЂРѕРґСѓРєС‚Рµ СЃ РЅР°РёР±РѕР»СЊС€РёРј РµРіРѕ РєРѕР»РёС‡РµСЃС‚РІРѕРј (РїРѕ Quantity) РёР· 
+  Production.ProductInventory. Р¤СѓРЅРєС†РёСЏ РґРѕР»Р¶РЅР° РІРѕР·РІСЂР°С‰Р°С‚СЊ 
+  С‚РѕР»СЊРєРѕ РїСЂРѕРґСѓРєС‚С‹, С…СЂР°РЅСЏС‰РёРµСЃСЏ РІ РѕС‚РґРµР»Рµ Рђ (Production.ProductInventory.Shelf).*/
 CREATE FUNCTION dbo.GetRowsByIdAndCount ( @ProductID [int],
 	@rowCount [int]
  )
@@ -45,8 +45,8 @@ CREATE FUNCTION dbo.GetRowsByIdAndCount ( @ProductID [int],
  );
 GO
 
-  /*Вызовите функцию для каждого продукта, применив оператор CROSS APPLY.
-   Вызовите функцию для каждого продукта, применив оператор OUTER APPLY.*/
+  /*Р’С‹Р·РѕРІРёС‚Рµ С„СѓРЅРєС†РёСЋ РґР»СЏ РєР°Р¶РґРѕРіРѕ РїСЂРѕРґСѓРєС‚Р°, РїСЂРёРјРµРЅРёРІ РѕРїРµСЂР°С‚РѕСЂ CROSS APPLY.
+   Р’С‹Р·РѕРІРёС‚Рµ С„СѓРЅРєС†РёСЋ РґР»СЏ РєР°Р¶РґРѕРіРѕ РїСЂРѕРґСѓРєС‚Р°, РїСЂРёРјРµРЅРёРІ РѕРїРµСЂР°С‚РѕСЂ OUTER APPLY.*/
 SELECT *
 FROM Production.Product AS P
     CROSS APPLY dbo.GetRowsByIdAndCount(P.ProductID, 2);
@@ -54,8 +54,8 @@ FROM Production.Product AS P
 SELECT *
 FROM Production.Product AS P OUTER APPLY dbo.GetRowsByIdAndCount(P.ProductID, 2);
 
-/*Измените созданную inline table-valued функцию, сделав ее multistatement 
-table-valued (предварительно сохранив для проверки код создания inline table-valued функции).*/
+/*РР·РјРµРЅРёС‚Рµ СЃРѕР·РґР°РЅРЅСѓСЋ inline table-valued С„СѓРЅРєС†РёСЋ, СЃРґРµР»Р°РІ РµРµ multistatement 
+table-valued (РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕ СЃРѕС…СЂР°РЅРёРІ РґР»СЏ РїСЂРѕРІРµСЂРєРё РєРѕРґ СЃРѕР·РґР°РЅРёСЏ inline table-valued С„СѓРЅРєС†РёРё).*/
 IF object_id('GetRowsByIdAndCount', 'FN') IS NOT NULL
 DROP FUNCTION GetRowsByIdAndCount
     GO

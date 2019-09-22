@@ -1,11 +1,11 @@
-/*a) добавьте в таблицу dbo.StateProvince поле CountryRegionName типа nvarchar(50);*/
+/*a) РґРѕР±Р°РІСЊС‚Рµ РІ С‚Р°Р±Р»РёС†Сѓ dbo.StateProvince РїРѕР»Рµ CountryRegionName С‚РёРїР° nvarchar(50);*/
 ALTER TABLE dbo.stateprovince
     ADD countryregionname NVARCHAR(50);
 go
 
-/*b) объявите табличную переменную с такой же структурой как dbo.StateProvince 
-и заполните ее данными из dbo.StateProvince. 
-Заполните поле CountryRegionName данными из Person.CountryRegion поля Name;*/
+/*b) РѕР±СЉСЏРІРёС‚Рµ С‚Р°Р±Р»РёС‡РЅСѓСЋ РїРµСЂРµРјРµРЅРЅСѓСЋ СЃ С‚Р°РєРѕР№ Р¶Рµ СЃС‚СЂСѓРєС‚СѓСЂРѕР№ РєР°Рє dbo.StateProvince 
+Рё Р·Р°РїРѕР»РЅРёС‚Рµ РµРµ РґР°РЅРЅС‹РјРё РёР· dbo.StateProvince. 
+Р—Р°РїРѕР»РЅРёС‚Рµ РїРѕР»Рµ CountryRegionName РґР°РЅРЅС‹РјРё РёР· Person.CountryRegion РїРѕР»СЏ Name;*/
 DECLARE @STATEPROVINCEVAR TABLE
                           (
                               stateprovinceid   [INT]                                              NOT NULL,
@@ -28,13 +28,13 @@ FROM [dbo].[stateprovince] AS SP
          JOIN person.countryregion AS CR
               ON SP.countryregioncode = CR.countryregioncode;
 
-/*c) обновите поле CountryRegionName в dbo.StateProvince данными из табличной переменной;*/
+/*c) РѕР±РЅРѕРІРёС‚Рµ РїРѕР»Рµ CountryRegionName РІ dbo.StateProvince РґР°РЅРЅС‹РјРё РёР· С‚Р°Р±Р»РёС‡РЅРѕР№ РїРµСЂРµРјРµРЅРЅРѕР№;*/
 UPDATE dbo.stateprovince
 SET countryregionname = V.countryregionname
 FROM @StateProvinceVar AS V
 WHERE stateprovince.stateprovinceid = V.stateprovinceid;
 
-/*d) удалите штаты из dbo.StateProvince, которые отсутствуют в таблице Person.Address;*/
+/*d) СѓРґР°Р»РёС‚Рµ С€С‚Р°С‚С‹ РёР· dbo.StateProvince, РєРѕС‚РѕСЂС‹Рµ РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‚ РІ С‚Р°Р±Р»РёС†Рµ Person.Address;*/
 DELETE
 FROM dbo.stateprovince
 WHERE stateprovinceid NOT IN
@@ -43,11 +43,11 @@ WHERE stateprovinceid NOT IN
           FROM person.address
       );
 
-/*e) удалите поле CountryRegionName из таблицы, удалите все созданные ограничения и значения по умолчанию.*/
+/*e) СѓРґР°Р»РёС‚Рµ РїРѕР»Рµ CountryRegionName РёР· С‚Р°Р±Р»РёС†С‹, СѓРґР°Р»РёС‚Рµ РІСЃРµ СЃРѕР·РґР°РЅРЅС‹Рµ РѕРіСЂР°РЅРёС‡РµРЅРёСЏ Рё Р·РЅР°С‡РµРЅРёСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ.*/
 ALTER TABLE dbo.stateprovince
     DROP CONSTRAINT countryregioncodepermitdigit,
         defaultmodifieddate,
         COLUMN countryregionname;
 
-/*f) удалите таблицу dbo.StateProvince.*/
+/*f) СѓРґР°Р»РёС‚Рµ С‚Р°Р±Р»РёС†Сѓ dbo.StateProvince.*/
 DROP TABLE dbo.stateprovince;

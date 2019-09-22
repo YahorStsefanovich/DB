@@ -1,7 +1,7 @@
-/*a) Создайте представление VIEW, отображающее данные из таблиц Production.ProductModel,
- Production.ProductModelProductDescriptionCulture, Production.Culture и Production.ProductDescription.
- Сделайте невозможным просмотр исходного кода представления. 
- Создайте уникальный кластерный индекс в представлении по полям ProductModelID,CultureID.*/
+/*a) РЎРѕР·РґР°Р№С‚Рµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ VIEW, РѕС‚РѕР±СЂР°Р¶Р°СЋС‰РµРµ РґР°РЅРЅС‹Рµ РёР· С‚Р°Р±Р»РёС† Production.ProductModel,
+ Production.ProductModelProductDescriptionCulture, Production.Culture Рё Production.ProductDescription.
+ РЎРґРµР»Р°Р№С‚Рµ РЅРµРІРѕР·РјРѕР¶РЅС‹Рј РїСЂРѕСЃРјРѕС‚СЂ РёСЃС…РѕРґРЅРѕРіРѕ РєРѕРґР° РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ. 
+ РЎРѕР·РґР°Р№С‚Рµ СѓРЅРёРєР°Р»СЊРЅС‹Р№ РєР»Р°СЃС‚РµСЂРЅС‹Р№ РёРЅРґРµРєСЃ РІ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРё РїРѕ РїРѕР»СЏРј ProductModelID,CultureID.*/
 CREATE VIEW dbo.ProductModelClusterView
     WITH ENCRYPTION, SCHEMABINDING
 AS
@@ -32,13 +32,13 @@ CREATE UNIQUE CLUSTERED INDEX PRODUCT_MODEL_INDX
 GO
 
 
-/*b) Создайте три INSTEAD OF триггера для представления на операции INSERT, UPDATE, DELETE.
- Каждый триггер должен выполнять соответствующие операции в таблицах Production.ProductModel,
- Production.ProductModelProductDescriptionCulture, Production.Culture и Production.ProductDescription.
- Обновление не должно происходить в таблице Production.ProductModelProductDescriptionCulture. 
- Удаление строк из таблиц Production.ProductModel, Production.Culture и
- Production.ProductDescription производите только в том случае, если удаляемые 
- строки больше не ссылаются на Production.ProductModelProductDescriptionCulture.*/
+/*b) РЎРѕР·РґР°Р№С‚Рµ С‚СЂРё INSTEAD OF С‚СЂРёРіРіРµСЂР° РґР»СЏ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ РЅР° РѕРїРµСЂР°С†РёРё INSERT, UPDATE, DELETE.
+ РљР°Р¶РґС‹Р№ С‚СЂРёРіРіРµСЂ РґРѕР»Р¶РµРЅ РІС‹РїРѕР»РЅСЏС‚СЊ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ РѕРїРµСЂР°С†РёРё РІ С‚Р°Р±Р»РёС†Р°С… Production.ProductModel,
+ Production.ProductModelProductDescriptionCulture, Production.Culture Рё Production.ProductDescription.
+ РћР±РЅРѕРІР»РµРЅРёРµ РЅРµ РґРѕР»Р¶РЅРѕ РїСЂРѕРёСЃС…РѕРґРёС‚СЊ РІ С‚Р°Р±Р»РёС†Рµ Production.ProductModelProductDescriptionCulture. 
+ РЈРґР°Р»РµРЅРёРµ СЃС‚СЂРѕРє РёР· С‚Р°Р±Р»РёС† Production.ProductModel, Production.Culture Рё
+ Production.ProductDescription РїСЂРѕРёР·РІРѕРґРёС‚Рµ С‚РѕР»СЊРєРѕ РІ С‚РѕРј СЃР»СѓС‡Р°Рµ, РµСЃР»Рё СѓРґР°Р»СЏРµРјС‹Рµ 
+ СЃС‚СЂРѕРєРё Р±РѕР»СЊС€Рµ РЅРµ СЃСЃС‹Р»Р°СЋС‚СЃСЏ РЅР° Production.ProductModelProductDescriptionCulture.*/
 CREATE TRIGGER OnInsertIntoProductModelVIew
     ON dbo.ProductModelClusterView
     INSTEAD OF
@@ -130,10 +130,10 @@ END;
 END;
 GO
 
-/*c) Вставьте новую строку в представление, указав новые данные для ProductModel,
- Culture и ProductDescription. Триггер должен добавить новые строки в таблицы Production.ProductModel,
- Production.ProductModelProductDescriptionCulture, Production.Culture и Production.ProductDescription.
- Обновите вставленные строки через представление. Удалите строки.*/
+/*c) Р’СЃС‚Р°РІСЊС‚Рµ РЅРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ РІ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ, СѓРєР°Р·Р°РІ РЅРѕРІС‹Рµ РґР°РЅРЅС‹Рµ РґР»СЏ ProductModel,
+ Culture Рё ProductDescription. РўСЂРёРіРіРµСЂ РґРѕР»Р¶РµРЅ РґРѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Рµ СЃС‚СЂРѕРєРё РІ С‚Р°Р±Р»РёС†С‹ Production.ProductModel,
+ Production.ProductModelProductDescriptionCulture, Production.Culture Рё Production.ProductDescription.
+ РћР±РЅРѕРІРёС‚Рµ РІСЃС‚Р°РІР»РµРЅРЅС‹Рµ СЃС‚СЂРѕРєРё С‡РµСЂРµР· РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ. РЈРґР°Р»РёС‚Рµ СЃС‚СЂРѕРєРё.*/
 INSERT INTO dbo.ProductModelClusterView(CultureID, C_Name, PM_Name, [ Description])
 VALUES ('EPL', 'English Prenier Ligue', 'Foolball', 'We are going to the Wembely');
 

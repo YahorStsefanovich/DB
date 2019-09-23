@@ -10,13 +10,10 @@
 CREATE TABLE Production.ProductModelHst
 (
     ID           [INT] IDENTITY (1,1) NOT NULL,
-    [Action] VARCHAR(10)          NOT NULL CHECK
-        ([Action] IN
-            (
-             'insert',
-             'update',
-             'delete'
-                )),
+    [Action]     VARCHAR(10)          NOT NULL CHECK
+        ([Action] IN ('insert',
+                      'update',
+                      'delete')),
     ModifiedDate DATETIME             NOT NULL,
     SourceID     [INT],
     UserName     VARCHAR(256)         NOT NULL
@@ -30,9 +27,7 @@ GO
 CREATE TRIGGER onProductModelChanged
     ON Production.ProductModel
     AFTER
-        INSERT,
-    UPDATE,
-    DELETE
+        INSERT, UPDATE, DELETE
     AS
 BEGIN
     DECLARE @eventType varchar(42);
@@ -42,20 +37,14 @@ BEGIN
             SELECT @sourceID = ProductModelID
             FROM inserted;
             IF EXISTS(SELECT * FROM deleted)
-                BEGIN
-                    SELECT @eventType = 'update';
-                END;
+                SELECT @eventType = 'update';
             ELSE
-                BEGIN
-                    SELECT @eventType = 'insert';
-                END;
+                SELECT @eventType = 'insert';
         END;
     ELSE
         BEGIN
             IF EXISTS(SELECT * FROM deleted)
-                BEGIN
-                    SELECT @eventType = 'delete';
-                END;
+                SELECT @eventType = 'delete';
             SELECT @sourceID = ProductModelID
             FROM deleted;
         END;

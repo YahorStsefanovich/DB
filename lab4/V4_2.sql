@@ -61,7 +61,6 @@ BEGIN
             IDENT_CURRENT('Production.ProductDescription'));
 END;
 GO
-;
 
 CREATE TRIGGER OnUpdateProductModelVIew
     ON dbo.ProductModelClusterView
@@ -102,36 +101,33 @@ BEGIN
 --
     Delete Culture
     FROM ProductModelProductDescriptionCulture
-    if not bound to it
-        IF @CultureID NOT IN (SELECT CultureID FROM Production.ProductModelProductDescriptionCulture)
-            BEGIN
-                DELETE
-                FROM Production.Culture
-                WHERE CultureID = @CultureID;
-            END;
+    IF @CultureID NOT IN (SELECT CultureID FROM Production.ProductModelProductDescriptionCulture)
+        BEGIN
+            DELETE
+            FROM Production.Culture
+            WHERE CultureID = @CultureID;
+        END;
 
 --
     Delete ProductDescription
     FROM ProductModelProductDescriptionCulture
-    if not bound to it
-        IF @ProductDescriptionID NOT IN
-           (SELECT ProductDescriptionID FROM Production.ProductModelProductDescriptionCulture)
-            BEGIN
-                DELETE
-                FROM Production.ProductDescription
-                WHERE ProductDescriptionID = @ProductDescriptionID;
-            END;
+    IF @ProductDescriptionID NOT IN
+       (SELECT ProductDescriptionID FROM Production.ProductModelProductDescriptionCulture)
+        BEGIN
+            DELETE
+            FROM Production.ProductDescription
+            WHERE ProductDescriptionID = @ProductDescriptionID;
+        END;
 
 --
     Delete ProductModel
     FROM ProductModelProductDescriptionCulture
-    if not bound to it
-        IF @ProductModelID NOT IN (SELECT ProductModelID FROM Production.ProductModelProductDescriptionCulture)
-            BEGIN
-                DELETE
-                FROM Production.ProductModel
-                WHERE ProductModelID = @ProductModelID;
-            END;
+    IF @ProductModelID NOT IN (SELECT ProductModelID FROM Production.ProductModelProductDescriptionCulture)
+        BEGIN
+            DELETE
+            FROM Production.ProductModel
+            WHERE ProductModelID = @ProductModelID;
+        END;
 END;
 GO
 

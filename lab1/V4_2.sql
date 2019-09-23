@@ -1,7 +1,7 @@
 RESTORE DATABASE AdventureWorks2012
-FROM "AdventureWorks2012"
-WITH MOVE 'AdventureWorks2012_Data' TO 'D:\Programs\SQL_Server\MSSQL11.YAHOR_STS\MSSQL\DATA\AdventureWorks2012.mdf',
-	MOVE 'AdventureWorks2012_Log' TO 'D:\Programs\SQL_Server\MSSQL11.YAHOR_STS\MSSQL\Log\AdventureWorks2012.mdf'
+    FROM "AdventureWorks2012"
+    WITH MOVE 'AdventureWorks2012_Data' TO 'D:\Programs\SQL_Server\MSSQL11.YAHOR_STS\MSSQL\DATA\AdventureWorks2012.mdf',
+    MOVE 'AdventureWorks2012_Log' TO 'D:\Programs\SQL_Server\MSSQL11.YAHOR_STS\MSSQL\Log\AdventureWorks2012.mdf'
 GO
 
 USE AdventureWorks2012;

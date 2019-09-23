@@ -2,18 +2,18 @@
  кроме поля uniqueidentifier, не включая индексы, ограничения и триггеры;*/
 CREATE TABLE dbo.stateprovince
 (
-    stateprovinceid [INT] IDENTITY(1, 1) NOT NULL,
-    stateprovincecode [NCHAR](3) COLLATE sql_latin1_general_cp1_ci_as NOT
-        NULL,
-    countryregioncode [NVARCHAR](3) COLLATE sql_latin1_general_cp1_ci_as
-        NOT NULL,
-    isonlystateprovinceflag [dbo].[FLAG] NOT NULL,
-    NAME [dbo].[NAME] NOT NULL,
-    territoryid [INT] NOT NULL,
-    modifieddate [DATETIME] NOT NULL
+    stateprovinceid         [INT] IDENTITY (1, 1)                           NOT NULL,
+    stateprovincecode       [NCHAR](3) COLLATE sql_latin1_general_cp1_ci_as NOT
+                                                                                NULL,
+    countryregioncode       [NVARCHAR](3) COLLATE sql_latin1_general_cp1_ci_as
+                                                                            NOT NULL,
+    isonlystateprovinceflag [dbo].[FLAG]                                    NOT NULL,
+    NAME                    [dbo].[NAME]                                    NOT NULL,
+    territoryid             [INT]                                           NOT NULL,
+    modifieddate            [DATETIME]                                      NOT NULL
 ) ON [PRIMARY];
 
-go 
+go
 
 /* b) используя инструкцию ALTER TABLE, создайте для таблицы dbo.StateProvince ограничение UNIQUE для поля Name;*/
 ALTER TABLE dbo.stateprovince

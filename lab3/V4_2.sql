@@ -15,7 +15,7 @@ ALTER TABLE dbo.stateprovince
  Временная таблица должна включать все поля таблицы dbo.StateProvince за исключением поля SalesPercent.*/
 CREATE TABLE #stateprovince 
 (
-    stateprovinceid [INT] NOT NULL,
+    stateprovinceid [INT] NOT NULL PRIMARY KEY,
     stateprovincecode [NCHAR](3) COLLATE sql_latin1_general_cp1_ci_as NOT NULL,
     countryregioncode [NVARCHAR](3) COLLATE sql_latin1_general_cp1_ci_as NOT
         NULL,

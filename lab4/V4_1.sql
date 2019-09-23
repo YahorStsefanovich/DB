@@ -9,25 +9,18 @@
 Создайте другие поля, если считаете их нужными.*/
 CREATE TABLE Production.ProductModelHst
 (
-    ID [INT] IDENTITY(1,1) NOT NULL, [
-    Action]
-    VARCHAR
-(
-    10
-) NOT NULL CHECK
-(
-    [
-    Action]
-    IN
-(
-    'insert',
-    'update',
-    'delete'
-)),
-    ModifiedDate DATETIME NOT NULL,
-    SourceID [INT],
-    UserName VARCHAR(256) NOT NULL
-    );
+    ID           [INT] IDENTITY (1,1) NOT NULL,
+    [Action] VARCHAR(10)          NOT NULL CHECK
+        ([Action] IN
+            (
+             'insert',
+             'update',
+             'delete'
+                )),
+    ModifiedDate DATETIME             NOT NULL,
+    SourceID     [INT],
+    UserName     VARCHAR(256)         NOT NULL
+);
 GO
 
 /*b) Создайте один AFTER триггер для трех операций INSERT, UPDATE, DELETE
@@ -37,35 +30,37 @@ GO
 CREATE TRIGGER onProductModelChanged
     ON Production.ProductModel
     AFTER
-INSERT,
-UPDATE,
-DELETE
+        INSERT,
+    UPDATE,
+    DELETE
     AS
-BEGIN DECLARE @eventType varchar(42);
-DECLARE @sourceID int;
-IF EXISTS(SELECT * FROM inserted)
 BEGIN
-SELECT @sourceID = ProductModelID
-FROM inserted;
-IF EXISTS(SELECT * FROM deleted)
-BEGIN
-SELECT @eventType = 'update';
-END
-ELSE
-BEGIN
-SELECT @eventType = 'insert';
-END
-END
-ELSE
-BEGIN IF EXISTS(SELECT * FROM deleted)
-BEGIN
-SELECT @eventType = 'delete';
-END
-SELECT @sourceID = ProductModelID
-FROM deleted;
-END
-INSERT INTO Production.ProductModelHst([Action], ModifiedDate, SourceID, UserName)
-VALUES (@eventType, GETDATE(), @sourceID, USER_NAME());
+    DECLARE @eventType varchar(42);
+    DECLARE @sourceID int;
+    IF EXISTS(SELECT * FROM inserted)
+        BEGIN
+            SELECT @sourceID = ProductModelID
+            FROM inserted;
+            IF EXISTS(SELECT * FROM deleted)
+                BEGIN
+                    SELECT @eventType = 'update';
+                END;
+            ELSE
+                BEGIN
+                    SELECT @eventType = 'insert';
+                END;
+        END;
+    ELSE
+        BEGIN
+            IF EXISTS(SELECT * FROM deleted)
+                BEGIN
+                    SELECT @eventType = 'delete';
+                END;
+            SELECT @sourceID = ProductModelID
+            FROM deleted;
+        END;
+    INSERT INTO Production.ProductModelHst([Action], ModifiedDate, SourceID, UserName)
+    VALUES (@eventType, GETDATE(), @sourceID, USER_NAME());
 END;
 GO
 

@@ -7,15 +7,16 @@
 
 EXECUTE dbo.EmpCountByDep ‘[2003],[2004],[2005]’*/
 
-IF OBJECT_ID ( 'dbo.NumberOfEmployeesByYear', 'P' ) IS NOT NULL
-DROP PROCEDURE dbo.NumberOfEmployeesByYear;
+IF OBJECT_ID('dbo.NumberOfEmployeesByYear', 'P') IS NOT NULL
+    DROP PROCEDURE dbo.NumberOfEmployeesByYear;
 GO
 
 CREATE PROCEDURE dbo.NumberOfEmployeesByYear @listOfYears varchar(MAX)
 AS
-BEGIN DECLARE @query  AS nvarchar(MAX);
-set @query =
-            'SELECT Name, ' + @listOfYears + '
+BEGIN
+    DECLARE @query AS nvarchar(MAX);
+    set @query =
+                'SELECT Name, ' + @listOfYears + '
 		FROM (
 				SELECT D.Name,
 				YEAR (ED.StartDate) as YearOfStartDate,
@@ -30,9 +31,9 @@ set @query =
 			FOR YearOfStartDate IN (' + @listOfYears + ')
 		) AS CountOfEmployees
 		ORDER BY Name;'
-execute
-    (@ query)
-    END;
+    execute
+        (@ query)
+END;
 GO
 
 EXECUTE dbo.NumberOfEmployeesByYear '[2003],[2004],[2005]';

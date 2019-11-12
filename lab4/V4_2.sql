@@ -98,36 +98,30 @@ BEGIN
            @ProductModelID = ProductModelID
     FROM deleted;
 
---
-    Delete Culture
-    FROM ProductModelProductDescriptionCulture
+-- 
     IF @CultureID NOT IN (SELECT CultureID FROM Production.ProductModelProductDescriptionCulture)
-        BEGIN
-            DELETE
-            FROM Production.Culture
-            WHERE CultureID = @CultureID;
-        END;
+    BEGIN
+        DELETE
+        FROM Production.Culture
+        WHERE CultureID = @CultureID;
+    END;
 
 --
-    Delete ProductDescription
-    FROM ProductModelProductDescriptionCulture
     IF @ProductDescriptionID NOT IN
-       (SELECT ProductDescriptionID FROM Production.ProductModelProductDescriptionCulture)
-        BEGIN
-            DELETE
-            FROM Production.ProductDescription
-            WHERE ProductDescriptionID = @ProductDescriptionID;
-        END;
+    (SELECT ProductDescriptionID FROM Production.ProductModelProductDescriptionCulture)
+     BEGIN
+         DELETE
+         FROM Production.ProductDescription
+         WHERE ProductDescriptionID = @ProductDescriptionID;
+     END;
 
 --
-    Delete ProductModel
-    FROM ProductModelProductDescriptionCulture
     IF @ProductModelID NOT IN (SELECT ProductModelID FROM Production.ProductModelProductDescriptionCulture)
-        BEGIN
-            DELETE
-            FROM Production.ProductModel
-            WHERE ProductModelID = @ProductModelID;
-        END;
+    BEGIN
+        DELETE
+        FROM Production.ProductModel
+        WHERE ProductModelID = @ProductModelID;
+    END;
 END;
 GO
 
